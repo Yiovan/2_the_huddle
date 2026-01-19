@@ -34,3 +34,12 @@ class Laberinto:
         if not ( 0 <= fila < self.filas and 0 <= columna < self.columnas): return False
         
         if self.tablero[fila][columna] in [ "S" , "E" ]: return False
+ 
+        self.tablero[fila][columna] = tipo  
+        return True 
+    
+
+    def reiniciar_tablero(self):
+        self.tablero = self.crear_tablero()
+        self.tablero[self.inicio[0]][self.inicio[1]] = "S"
+        self.tablero [self.fin[0]][self.fin[1]] = "E"

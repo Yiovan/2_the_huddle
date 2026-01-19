@@ -43,3 +43,23 @@ class Laberinto:
         self.tablero = self.crear_tablero()
         self.tablero[self.inicio[0]][self.inicio[1]] = "S"
         self.tablero [self.fin[0]][self.fin[1]] = "E"
+
+
+
+    def resolver_bfs (self):
+        cola = [self.inicio]
+        visitados = {self.inicio: None}
+        
+        while cola:
+            actual = cola.pop(0)
+            if actual == self.fin:
+                break
+
+            f, c = actual
+
+            for df, dc in [(-1,0), (1,0), (0,-1), (0,1)]:
+                nf, nc = f + df, c + dc
+                if 0 <= nf <self.filas and 0 <= nc <self.columnas:
+                   if self.tablero[nf][nc] in [" ", "~", "E"] and (nf, nc) not in visitados:
+                        visitados[(nf, nc)] = actual
+                        cola.append((nf, nc))

@@ -10,7 +10,7 @@ class Laberinto:
         self.fin = (filas - 1, columnas - 1)
         self.tablero[0][0] = "S"
         self.tablero[filas - 1][columnas - 1] = "E"
-    
+        
     def crear_tablero(self):
         """Crea un tablero básico lleno de caminos vacíos"""
         return [[" " for _ in range(self.columnas)] for _ in range(self.filas)]

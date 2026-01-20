@@ -63,3 +63,64 @@ class Laberinto:
                    if self.tablero[nf][nc] in [" ", "~", "E"] and (nf, nc) not in visitados:
                         visitados[(nf, nc)] = actual
                         cola.append((nf, nc))
+        
+        if self.fin not in visitados:
+            return False
+        
+        paso = self.fin
+
+        while paso:
+            f, c = paso 
+            if self.tablero [f][c] not in ["S", "E"]:
+                self.tablero [f][c] = "."
+            paso = visitados[paso]
+        return True
+    def jugar(self):
+        while True:
+            self.mostrar_tablero()
+            print("\n[1] Añadir Muro (#) | [2] Añadir Agua (~) | [3] Resolver laberinto | [4] Salir")
+            opcion = input("Elige una opción: ")
+
+            if opcion == "4":
+                print("¡Hasta luego!")
+                break
+            
+            if opcion == "3":
+                # Resolver el laberinto
+                self.reiniciar_tablero()
+                exito = self.resolver_bfs()
+                self.mostrar_tablero()
+                
+                if exito:
+                    print("\n¡Camino encontrado! Marcado con puntos (.).")
+                else:
+                    print("\nNo existe un camino posible con esos obstáculos.")
+                
+                input("\nPresiona Enter para continuar...")
+                continue
+            
+            if opcion in ["1", "2"]:
+                tipo = "#" if opcion == "1" else "~"
+                try:
+                    f_obj = int(input(f"Fila del objeto (0-{self.filas - 1}): "))
+                    c_obj = int(input(f"Columna del objeto (0-{self.columnas - 1}): "))
+                    
+                    if self.agregar_obstaculo(f_obj, c_obj, tipo):
+                        print(f"{'Muro' if tipo == '#' else 'Agua'} agregado correctamente.")
+                    else:
+                        print("¡No puedes colocar un obstáculo en esa posición!")
+                    
+                except ValueError:
+                    print("Coordenadas no válidas.")
+                except IndexError:
+                    print("Coordenadas fuera de rango.")
+
+
+if __name__ == "__main__":
+    print()
+    
+    f = int(input('Cuantas filas tendra el mapa: '))
+    c = int(input('Cuantas columnas tendra el mapa: '))
+
+    laberinto  = Laberinto(f,c)
+    laberinto.jugar()

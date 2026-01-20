@@ -19,7 +19,7 @@ es como un molde o plano arquitectonico, es conocido como una plantilla que defi
 
 
 un auto
-
+     
 - la clase seria el diseño de ingenieria, que dice todo los autos deben tener un motor, un color y la capacidad de acelerar
 
 - El objeto seria el auto real que tienes estando afuera 

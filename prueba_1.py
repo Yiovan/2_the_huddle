@@ -77,23 +77,7 @@ class BusquedaBFS(AlgoritmoBusqueda):
         return None
 
 
-class BusquedaDFS(AlgoritmoBusqueda):
-    def encontrar_ruta(self, inicio, fin):
-        pila = [inicio]
-        visitados = {inicio: None}
-        
-        while pila:
-            actual = pila.pop()
-            if actual == fin:
-                return self._reconstruir_camino(visitados, inicio, fin)
-            
-            f, c = actual
-            for df, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-                nf, nc = f + df, c + dc
-                if self.mapa.es_accesible(nf, nc) and (nf, nc) not in visitados:
-                    visitados[(nf, nc)] = actual
-                    pila.append((nf, nc))
-        return None
+
 
 
 # ============================================
@@ -134,7 +118,7 @@ class Vista:
             print(texto)
     
     def mostrar_menu(self):
-        print("\n[1] Muro (#) | [2] Agua (~) | [3] BFS | [4] DFS | [5] Salir")
+        print("\n[1] Muro (#) | [2] Agua (~) | [3] BFS | [5] Salir")
         return input("Opción: ")
     
     def pedir_coordenadas(self, max_f, max_c):
@@ -151,7 +135,6 @@ class Juego:
         self.mapa = mapa
         self.vista = vista
         self.bfs = BusquedaBFS(mapa)
-        self.dfs = BusquedaDFS(mapa)
     
     def jugar(self):
         while True:
@@ -173,17 +156,18 @@ class Juego:
                 except:
                     print("✗ Error en coordenadas")
             
-            elif opcion in ["3", "4"]:
+            elif opcion in ["3"]:
                 self.mapa.reiniciar()
-                algoritmo = self.bfs if opcion == "3" else self.dfs
-                calc = CalculadoraDeRutas(self.mapa, algoritmo)
+                algoritmo = self.bfs
+                nombre = "BFS"
                 
+                calc = CalculadoraDeRutas(self.mapa, algoritmo)
                 camino = calc.calcular_ruta()
                 self.vista.mostrar_mapa(self.mapa)
                 
                 if calc.marcar_camino(camino):
                     self.vista.mostrar_mapa(self.mapa)
-                    print(f"✓ Camino encontrado ({len(camino)} pasos) - {'BFS' if opcion == '3' else 'DFS'}")
+                    print(f"✓ Camino encontrado ({len(camino)} pasos) - {nombre}")
                 else:
                     print("✗ No hay camino posible")
                 input("\nEnter para continuar...")
